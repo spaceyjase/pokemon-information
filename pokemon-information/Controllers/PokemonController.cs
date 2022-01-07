@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
 using PokemonInformation.Interfaces;
 using PokemonInformation.Models;
@@ -22,22 +24,23 @@ namespace PokemonInformation.Controllers
     }
 
     [HttpGet("{pokemonName}")]
-    public PokemonResult Get(string pokemonName)
+    public async Task<IActionResult> Get(string pokemonName)
     {
       _logger.LogInformation(pokemonName);
 
-      return _data.GetPokemonInformation(pokemonName).Result;
+      var result = await _data.GetPokemonInformation(pokemonName).ConfigureAwait(false);
+      return result != null ? Ok(result) : NotFound();
     }
 
     [HttpGet("translated/{pokemonName}")]
-    public PokemonResult GetTranslated(string pokemonName)
+    public async Task<IActionResult> GetTranslated(string pokemonName)
     {
       _logger.LogInformation(pokemonName);
 
-      // TODO: empty string?
       // TODO: translated information
+      var result = await _data.GetPokemonInformation(pokemonName).ConfigureAwait(false);
 
-      return _data.GetPokemonInformation(pokemonName).Result;
+      return result != null ? Ok(result) : NotFound();
     }
   }
 }
