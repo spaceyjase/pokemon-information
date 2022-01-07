@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PokemonInformation.Interfaces;
+using PokemonInformation.Models;
 
 namespace PokemonInformation.Controllers
 {
@@ -21,19 +22,22 @@ namespace PokemonInformation.Controllers
     }
 
     [HttpGet("{pokemonName}")]
-    public IEnumerable<WeatherForecast> Get(string pokemonName)
+    public PokemonResult Get(string pokemonName)
     {
       _logger.LogInformation(pokemonName);
 
-      return _data.Data;
+      return _data.GetPokemonInformation(pokemonName).Result;
     }
 
     [HttpGet("translated/{pokemonName}")]
-    public IEnumerable<WeatherForecast> GetTranslated(string pokemonName)
+    public PokemonResult GetTranslated(string pokemonName)
     {
       _logger.LogInformation(pokemonName);
 
-      return _data.Data;
+      // TODO: empty string?
+      // TODO: translated information
+
+      return _data.GetPokemonInformation(pokemonName).Result;
     }
   }
 }

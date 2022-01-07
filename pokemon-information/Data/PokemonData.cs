@@ -1,31 +1,28 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PokeApiNet;
 using PokemonInformation.Interfaces;
 
 namespace PokemonInformation.Data
 {
   public class PokemonData : IPokemonData
   {
-    private static readonly string[] Summaries = new[]
-    {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    readonly PokeApiClient pokeClient = new PokeApiClient();
 
-    public IEnumerable<WeatherForecast> Data
+    public async Task<Models.PokemonResult> GetPokemonInformation(string name)
     {
-      get
-      {
-        var rng = new Random();
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-          {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = rng.Next(-20, 55),
-            Summary = Summaries[rng.Next(Summaries.Length)]
-          })
-          .ToArray();
-      }
+      var pokemon = await pokeClient.GetResourceAsync<Pokemon>(name).ConfigureAwait(false);
+      var species = await pokeClient.GetResourceAsync<PokemonSpecies>(pokemon.Id).ConfigureAwait(false);
+
+      return new Models.PokemonResult(
+        pokemon.Name,
+        species.FlavorTextEntries.First(s => s.Language.Name == "en").FlavorText, // Assuming English...
+        species.Habitat.Name,
+        species.IsLegendary
+      );
     }
   }
 }
