@@ -1,6 +1,6 @@
 using System;
 
-namespace pokemon_information
+namespace PokemonInformation
 {
   public class WeatherForecast
   {

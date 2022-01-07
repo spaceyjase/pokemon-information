@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>pokemon_information</RootNamespace>
+    <RootNamespace>PokemonInformation</RootNamespace>
     <UserSecretsId>eb4467f8-be58-4206-bbe7-4deb39bb9e11</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>

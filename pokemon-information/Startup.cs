@@ -1,18 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using PokemonInformation.Data;
+using PokemonInformation.Interfaces;
 
-namespace pokemon_information
+namespace PokemonInformation
 {
   public class Startup
   {
@@ -26,12 +21,14 @@ namespace pokemon_information
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-
       services.AddControllers();
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "pokemon_information", Version = "v1" });
       });
+
+      // TODO: add service provider for pokemon information
+      services.AddScoped<IPokemonData, PokemonData>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
