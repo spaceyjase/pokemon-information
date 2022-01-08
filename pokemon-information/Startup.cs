@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PokemonInformation.Data;
-using PokemonInformation.Interfaces;
+using PokemonInformation.Repository;
 
 namespace PokemonInformation
 {
@@ -27,7 +27,7 @@ namespace PokemonInformation
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "pokemon_information", Version = "v1" });
       });
 
-      // TODO: add service provider for pokemon information
+      services.AddScoped<IPokemonRepository, PokemonRepository>();
       services.AddScoped<IPokemonData, PokemonData>();
     }
 
