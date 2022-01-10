@@ -1,9 +1,6 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using PokemonInformation.Models;
 
 namespace PokemonInformation.Repository
@@ -27,7 +24,7 @@ namespace PokemonInformation.Repository
         var response = await httpClient.SendAsync(request);
         if (response.IsSuccessStatusCode)
         {
-          var translation = await response.Content.ReadAsAsync<YodaTranslation>();
+          var translation = await response.Content.ReadAsAsync<Translation>();
           result = translation.Contents.Translated;
         }
       }
@@ -39,9 +36,26 @@ namespace PokemonInformation.Repository
       return result;
     }
 
-    public string GetShakespeareTranslation(string description)
+    public async Task<string> GetShakespeareTranslation(string description)
     {
-      throw new NotImplementedException();
+      var result = string.Empty;
+      try
+      {
+        using HttpClient httpClient = new();
+        var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.funtranslations.com/translate/shakespeare.json?text={description}");
+        var response = await httpClient.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+          var translation = await response.Content.ReadAsAsync<Translation>();
+          result = translation.Contents.Translated;
+        }
+      }
+      catch (HttpRequestException ex)
+      {
+        _logger.LogWarning(ex.Message);
+      }
+
+      return result;
     }
 
   }

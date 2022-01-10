@@ -27,7 +27,7 @@ namespace PokemonInformationTest
 
       var mockTranslationRepository = new Mock<ITranslationRepository>();
       mockTranslationRepository.Setup(x => x.GetYodaTranslationForDescription(It.IsAny<string>())).Returns(Task.FromResult(string.Empty));
-      mockTranslationRepository.Setup(x => x.GetShakespeareTranslation(It.IsAny<string>())).Returns(string.Empty);
+      mockTranslationRepository.Setup(x => x.GetShakespeareTranslation(It.IsAny<string>())).Returns(Task.FromResult(string.Empty));
 
       var data = new PokemonData(new NullLogger<PokemonData>(), mockPokemonRepository.Object, mockTranslationRepository.Object);
 

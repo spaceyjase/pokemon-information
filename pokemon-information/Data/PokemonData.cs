@@ -34,19 +34,20 @@ namespace PokemonInformation.Data
         return null;
       }
 
+      Task<string> action;
       if (pokemon.IsLegendary || pokemon.Habitat == "cave")
       {
-        var yodaTranslation = await _translationRepository.GetYodaTranslationForDescription(pokemon.Description);
-        return !string.IsNullOrEmpty(yodaTranslation) ? new PokemonResult(pokemon.Name, pokemon.Habitat, pokemon.IsLegendary)
-        {
-          Description = yodaTranslation
-        } : pokemon;
+        action = _translationRepository.GetYodaTranslationForDescription(pokemon.Description);
+      }
+      else
+      {
+        action = _translationRepository.GetShakespeareTranslation(pokemon.Description);
       }
 
-      var shakespeareTranslation = _translationRepository.GetShakespeareTranslation(pokemon.Description);
-      return !string.IsNullOrEmpty(shakespeareTranslation) ? new PokemonResult(pokemon.Name, pokemon.Habitat, pokemon.IsLegendary)
+      var translation = await action.ConfigureAwait(false);
+      return !string.IsNullOrEmpty(translation) ? new PokemonResult(pokemon.Name, pokemon.Habitat, pokemon.IsLegendary)
       {
-        Description = shakespeareTranslation
+        Description = translation
       } : pokemon;
     }
   }

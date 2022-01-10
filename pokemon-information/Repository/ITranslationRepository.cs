@@ -19,6 +19,6 @@ namespace PokemonInformation.Repository
     /// </summary>
     /// <param name="description"></param>
     /// <returns>Shakespeare translation (or null).</returns>
-    string GetShakespeareTranslation(string description);
+    Task<string> GetShakespeareTranslation(string description);
   }
 }

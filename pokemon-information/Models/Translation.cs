@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace PokemonInformation.Models
 {
@@ -13,7 +8,7 @@ namespace PokemonInformation.Models
     public string Translated { get; set; }
   }
 
-  public record YodaTranslation
+  public record Translation
   {
     [JsonPropertyName("contents")]
     public Contents Contents { get; set; }
