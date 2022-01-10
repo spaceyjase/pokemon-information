@@ -28,6 +28,7 @@ namespace PokemonInformation
       });
 
       services.AddScoped<IPokemonRepository, PokemonRepository>();
+      services.AddScoped<ITranslationRepository, TranslationRepository>();
       services.AddScoped<IPokemonData, PokemonData>();
     }
 

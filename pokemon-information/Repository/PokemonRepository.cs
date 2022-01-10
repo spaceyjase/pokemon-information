@@ -8,9 +8,6 @@ using PokemonInformation.Models;
 
 namespace PokemonInformation.Repository
 {
-  /// <summary>
-  /// Wrapper around the PokeApi.
-  /// </summary>
   public class PokemonRepository : IPokemonRepository, IDisposable
   {
     private readonly PokeApiClient pokeClient = new();
@@ -21,11 +18,6 @@ namespace PokemonInformation.Repository
       _logger = logger;
     }
 
-    /// <summary>
-    /// Return a pokemon with the given name, otherwise null.
-    /// </summary>
-    /// <param name="name"></param>
-    /// <returns>PokemonResult.</returns>
     public async Task<PokemonResult> GetPokemon(string name)
     {
       try
@@ -51,6 +43,7 @@ namespace PokemonInformation.Repository
     public void Dispose()
     {
       pokeClient?.Dispose();
+      GC.SuppressFinalize(this);
     }
   }
 }

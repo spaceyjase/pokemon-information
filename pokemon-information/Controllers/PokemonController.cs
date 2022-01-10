@@ -33,7 +33,7 @@ namespace PokemonInformation.Controllers
       _logger.LogInformation(pokemonName);
 
       // TODO: translated information
-      var result = await _data.GetPokemonInformation(pokemonName).ConfigureAwait(false);
+      var result = await _data.GetPokemonInformationWithTranslation(pokemonName).ConfigureAwait(false);
 
       return result != null ? Ok(result) : NotFound();
     }
