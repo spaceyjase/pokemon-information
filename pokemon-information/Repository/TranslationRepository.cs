@@ -1,12 +1,42 @@
 ﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using PokemonInformation.Models;
 
 namespace PokemonInformation.Repository
 {
   public class TranslationRepository: ITranslationRepository
   {
-    public string GetYodaTranslationForDescription(string description)
+    private readonly ILogger<TranslationRepository> _logger;
+
+    public TranslationRepository(ILogger<TranslationRepository> logger)
     {
-      throw new NotImplementedException();
+      _logger = logger;
+    }
+
+    public async Task<string> GetYodaTranslationForDescription(string description)
+    {
+      var result = string.Empty;
+      try
+      {
+        using HttpClient httpClient = new();
+        var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.funtranslations.com/translate/yoda.json?text={description}");
+        var response = await httpClient.SendAsync(request);
+        if (response.IsSuccessStatusCode)
+        {
+          var translation = await response.Content.ReadAsAsync<YodaTranslation>();
+          result = translation.Contents.Translated;
+        }
+      }
+      catch (HttpRequestException ex)
+      {
+        _logger.LogWarning(ex.Message);
+      }
+
+      return result;
     }
 
     public string GetShakespeareTranslation(string description)

@@ -20,8 +20,8 @@ namespace PokemonInformationTest
     public async Task PokemonInformation_Returns_Expected_Data()
     {
       var mockData = new Mock<IPokemonData>();
-      mockData.Setup(x => x.GetPokemonInformation("mewtwo")).Returns(() => Task.FromResult<PokemonResult>(
-        new PokemonResult("mewtwo", "foo", "bar", true)));
+      mockData.Setup(x => x.GetPokemonInformation("mewtwo")).Returns(() => Task.FromResult(
+        new PokemonResult("mewtwo", "bar", true)));
 
       var controller = new PokemonController(new NullLogger<PokemonController>(), mockData.Object);
 

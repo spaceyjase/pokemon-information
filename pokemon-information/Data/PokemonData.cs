@@ -36,15 +36,18 @@ namespace PokemonInformation.Data
 
       if (pokemon.IsLegendary || pokemon.Habitat == "cave")
       {
-        var yodaTranslation = _translationRepository.GetYodaTranslationForDescription(pokemon.Description);
-        if (!string.IsNullOrEmpty(yodaTranslation))
+        var yodaTranslation = await _translationRepository.GetYodaTranslationForDescription(pokemon.Description);
+        return !string.IsNullOrEmpty(yodaTranslation) ? new PokemonResult(pokemon.Name, pokemon.Habitat, pokemon.IsLegendary)
         {
-          return new PokemonResult(pokemon.Name, yodaTranslation, pokemon.Habitat, pokemon.IsLegendary);
-        }
+          Description = yodaTranslation
+        } : pokemon;
       }
 
       var shakespeareTranslation = _translationRepository.GetShakespeareTranslation(pokemon.Description);
-      return !string.IsNullOrEmpty(shakespeareTranslation) ? new PokemonResult(pokemon.Name, shakespeareTranslation, pokemon.Habitat, pokemon.IsLegendary) : pokemon;
+      return !string.IsNullOrEmpty(shakespeareTranslation) ? new PokemonResult(pokemon.Name, pokemon.Habitat, pokemon.IsLegendary)
+      {
+        Description = shakespeareTranslation
+      } : pokemon;
     }
   }
 }

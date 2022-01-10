@@ -25,12 +25,10 @@ namespace PokemonInformation.Repository
         var pokemon = await pokeClient.GetResourceAsync<Pokemon>(name).ConfigureAwait(false);
         var species = await pokeClient.GetResourceAsync<PokemonSpecies>(pokemon.Id).ConfigureAwait(false);
 
-        return new PokemonResult(
-          pokemon.Name,
-          species.FlavorTextEntries.First(s => s.Language.Name == "en").FlavorText, // Spec says any English flavour; just grab the first.
-          species.Habitat.Name,
-          species.IsLegendary
-        );
+        return new PokemonResult(pokemon.Name, species.Habitat.Name, species.IsLegendary)
+        {
+          Description = species.FlavorTextEntries.First(s => s.Language.Name == "en").FlavorText, // Spec says any English flavour; just grab the first.
+        };
       }
       catch (HttpRequestException ex)
       {

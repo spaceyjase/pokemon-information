@@ -20,10 +20,13 @@ namespace PokemonInformationTest
     {
       var mockPokemonRepository = new Mock<IPokemonRepository>();
       mockPokemonRepository.Setup(x => x.GetPokemon("bulbasaur"))
-        .Returns(() => Task.FromResult(new PokemonResult("bulbasaur", "foo", "bar", false)));
+        .Returns(() => Task.FromResult(new PokemonResult("bulbasaur", "bar", false)
+        {
+          Description = "foo"
+        }));
 
       var mockTranslationRepository = new Mock<ITranslationRepository>();
-      mockTranslationRepository.Setup(x => x.GetYodaTranslationForDescription(It.IsAny<string>())).Returns(string.Empty);
+      mockTranslationRepository.Setup(x => x.GetYodaTranslationForDescription(It.IsAny<string>())).Returns(Task.FromResult(string.Empty));
       mockTranslationRepository.Setup(x => x.GetShakespeareTranslation(It.IsAny<string>())).Returns(string.Empty);
 
       var data = new PokemonData(new NullLogger<PokemonData>(), mockPokemonRepository.Object, mockTranslationRepository.Object);
@@ -41,10 +44,10 @@ namespace PokemonInformationTest
     {
       var mockPokemonRepository = new Mock<IPokemonRepository>();
       mockPokemonRepository.Setup(x => x.GetPokemon("mewtwo"))
-        .Returns(() => Task.FromResult(new PokemonResult("mewtwo", "", "bar", true)));
+        .Returns(() => Task.FromResult(new PokemonResult("mewtwo", "bar", true)));
 
       var mockTranslationRepository = new Mock<ITranslationRepository>();
-      mockTranslationRepository.Setup(x => x.GetYodaTranslationForDescription(It.IsAny<string>())).Returns("yoda");
+      mockTranslationRepository.Setup(x => x.GetYodaTranslationForDescription(It.IsAny<string>())).Returns(Task.FromResult("yoda"));
 
       var data = new PokemonData(new NullLogger<PokemonData>(), mockPokemonRepository.Object, mockTranslationRepository.Object);
 
@@ -59,10 +62,10 @@ namespace PokemonInformationTest
     {
       var mockPokemonRepository = new Mock<IPokemonRepository>();
       mockPokemonRepository.Setup(x => x.GetPokemon("zubat"))
-        .Returns(() => Task.FromResult(new PokemonResult("zubat", "", "cave", false)));
+        .Returns(() => Task.FromResult(new PokemonResult("zubat", "cave", false)));
 
       var mockTranslationRepository = new Mock<ITranslationRepository>();
-      mockTranslationRepository.Setup(x => x.GetYodaTranslationForDescription(It.IsAny<string>())).Returns("yoda");
+      mockTranslationRepository.Setup(x => x.GetYodaTranslationForDescription(It.IsAny<string>())).Returns(Task.FromResult("yoda"));
 
       var data = new PokemonData(new NullLogger<PokemonData>(), mockPokemonRepository.Object, mockTranslationRepository.Object);
 
@@ -77,7 +80,7 @@ namespace PokemonInformationTest
     {
       var mockPokemonRepository = new Mock<IPokemonRepository>();
       mockPokemonRepository.Setup(x => x.GetPokemon("charmander"))
-        .Returns(() => Task.FromResult(new PokemonResult("charmander", "", "mountain", false)));
+        .Returns(() => Task.FromResult(new PokemonResult("charmander", "mountain", false)));
 
       var mockTranslationRepository = new Mock<ITranslationRepository>();
 

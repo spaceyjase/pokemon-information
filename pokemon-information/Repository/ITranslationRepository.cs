@@ -1,4 +1,6 @@
-﻿namespace PokemonInformation.Repository
+﻿using System.Threading.Tasks;
+
+namespace PokemonInformation.Repository
 {
   /// <summary>
   /// Wrapper around translation API endpoints.
@@ -10,7 +12,7 @@
     /// </summary>
     /// <param name="description"></param>
     /// <returns>Yoda translation (or null).</returns>
-    string GetYodaTranslationForDescription(string description);
+    Task<string> GetYodaTranslationForDescription(string description);
 
     /// <summary>
     /// Get Shakespeare translation for the given description.
