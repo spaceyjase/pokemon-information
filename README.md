@@ -43,5 +43,6 @@ A small engineering challenge.
 - Resilience and stability; target platform(s) may affect deployment targets.
 - Teamwork and communication - on going feedback, fresh pair of eyes, code review.
 - CI actions, CD, code coverage and static analysis.
+- Consider minimal APIs, .Net 6. New and shiny things.
 
 ### That's all, have fun!
